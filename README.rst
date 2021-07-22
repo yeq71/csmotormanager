@@ -3,8 +3,8 @@ csmotormanager
 
 |code_ci| |docs_ci| |coverage| |pypi_version| |license|
 
-This is where you should write a short paragraph that describes what your module does,
-how it does it, and why people should use it.
+This package aims to help update coordinate system motor record attributes when
+changing coordinate system parameters on a Delta Tau Geo Brick.
 
 ============== ==============================================================
 PyPI           ``pip install csmotormanager``
