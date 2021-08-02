@@ -51,12 +51,17 @@ def parse_config(config):
         elif cs_key in entry:
             name = entry[cs_key]["name"]
             cs_type = entry[cs_key]["type"]
-            real_motors = entry[cs_key]["real_motors"]
-            cs_motors = entry[cs_key]["cs_motors"]
+            real_motor_mapping = entry[cs_key]["real_motors"]
+            cs_motor_mapping = entry[cs_key]["cs_motors"]
             cs_params = entry[cs_key]["cs_params"]
             coordinate_systems.append(
                 create_coordinate_system(
-                    name, cs_type, real_motors, cs_motors, motors, cs_params
+                    name,
+                    cs_type,
+                    real_motor_mapping,
+                    cs_motor_mapping,
+                    motors,
+                    cs_params,
                 )
             )
         else:
@@ -70,4 +75,5 @@ def run_ioc(coordinate_systems: List[CoordinateSystem]):
 
     logging.info("Coordinate systems overview")
     for cs in coordinate_systems:
-        cs.report()
+        print(cs.get_report_string())
+        cs.update_cs_motor_attributes()

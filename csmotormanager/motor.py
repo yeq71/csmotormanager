@@ -29,4 +29,4 @@ class Motor:
     def get_report_string(self) -> str:
         position = self.get_position()
         low_limit, high_limit = self.get_limits()
-        return f"{self.name}: {position:5f}{self.units} [{low_limit}, {high_limit}]"
+        return f"{self.name}: {position:f}{self.units} [{low_limit}, {high_limit}]"

@@ -144,7 +144,40 @@ class TestCoordinateSystem:
         params = self.cs.get_cs_param_values()
 
         param_index = 0
-        for param in params:
+        for name, param in params.items():
+            assert name == expected_names[param_index]
             assert param.name == expected_names[param_index]
             assert param.value == expected_values[param_index]
             param_index += 1
+
+    def test_update_cs_motor_attributes_raises_NotImplementedError(self):
+        with pytest.raises(NotImplementedError) as not_implemented_error:
+            self.cs.update_cs_motor_attributes()
+
+        assert str(not_implemented_error.value) == "Override this method in subclass"
+
+    @patch("cothread.catools.caget")
+    def test_get_report_string(self, mock_caget):
+        expected_values = [1, 2, 3, 4, 5, 6]
+        mock_caget.side_effect = expected_values
+
+        expected_report_string = (
+            "KB mirrors (linear_transform)\n"
+            "Real motors:\n"
+            "  kb_x: 5.500000mm [-10.0, 10.0]\n"
+            "  kb_y: 5.500000mm [-10.0, 10.0]\n"
+            "\n"
+            "CS motors:\n"
+            "  kb_cs_x: 5.500000mm [-10.0, 10.0]\n"
+            "  kb_cs_y: 5.500000mm [-10.0, 10.0]\n"
+            "\n"
+            "CS parameters:\n"
+            "  cs_x_xscale: 1.000000\n"
+            "  cs_x_yscale: 2.000000\n"
+            "  cs_x_offset: 3.000000\n"
+            "  cs_y_xscale: 4.000000\n"
+            "  cs_y_yscale: 5.000000\n"
+            "  cs_y_offset: 6.000000\n"
+        )
+
+        assert self.cs.get_report_string() == expected_report_string

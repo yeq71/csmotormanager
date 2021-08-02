@@ -32,3 +32,79 @@ class LinearTransform(CoordinateSystem):
         for param in self.required_params:
             if param not in cs_params:
                 raise ValueError(f"Required parameter {param} is missing")
+
+    def calculate_scaled_limit(
+        self, raw_limit: float, scale_factor: float, offset: float
+    ) -> float:
+        return raw_limit * scale_factor + offset
+
+    def update_cs_motor_attributes(self) -> None:
+        """Called to update CS motor parameters
+        - When the transform parameters are updated
+        - When the real motor limits change
+        - When the real motor velocities change
+        - When the real motor accelerations change"""
+        # Get properties of real motors
+        real_motor_limits = self.get_real_motor_limit_values()
+
+        # Get CS parameter values
+        cs_param_values = self.get_cs_param_values()
+
+        # Calculate what the CS X motor limit should be
+        print(real_motor_limits)
+        print(cs_param_values)
+
+        cs_x_low_limit = min(
+            self.calculate_scaled_limit(
+                real_motor_limits["x"].low_limit,
+                cs_param_values["cs_x_xscale"].value,
+                cs_param_values["cs_x_offset"].value,
+            ),
+            self.calculate_scaled_limit(
+                real_motor_limits["y"].low_limit,
+                cs_param_values["cs_x_yscale"].value,
+                cs_param_values["cs_x_offset"].value,
+            ),
+        )
+
+        cs_x_high_limit = min(
+            self.calculate_scaled_limit(
+                real_motor_limits["x"].high_limit,
+                cs_param_values["cs_x_xscale"].value,
+                cs_param_values["cs_x_offset"].value,
+            ),
+            self.calculate_scaled_limit(
+                real_motor_limits["y"].high_limit,
+                cs_param_values["cs_x_yscale"].value,
+                cs_param_values["cs_x_offset"].value,
+            ),
+        )
+
+        cs_y_low_limit = min(
+            self.calculate_scaled_limit(
+                real_motor_limits["y"].low_limit,
+                cs_param_values["cs_y_xscale"].value,
+                cs_param_values["cs_y_offset"].value,
+            ),
+            self.calculate_scaled_limit(
+                real_motor_limits["y"].low_limit,
+                cs_param_values["cs_y_yscale"].value,
+                cs_param_values["cs_y_offset"].value,
+            ),
+        )
+
+        cs_y_high_limit = min(
+            self.calculate_scaled_limit(
+                real_motor_limits["y"].high_limit,
+                cs_param_values["cs_y_xscale"].value,
+                cs_param_values["cs_y_offset"].value,
+            ),
+            self.calculate_scaled_limit(
+                real_motor_limits["y"].high_limit,
+                cs_param_values["cs_y_yscale"].value,
+                cs_param_values["cs_y_offset"].value,
+            ),
+        )
+
+        print(f"CS X limits: {cs_x_low_limit} - {cs_x_high_limit}")
+        print(f"CS Y limits: {cs_y_low_limit} - {cs_y_high_limit}")
