@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional
 
-from ..motor import Motor
+from csmotormanager.motor.motor import Motor
+
 from .lineartransform import LinearTransform
 
 

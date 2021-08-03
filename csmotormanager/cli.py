@@ -4,11 +4,10 @@ from typing import List
 
 from ruamel import yaml
 
+from csmotormanager.config.config import get_logger, parse_config
+from csmotormanager.cs.coordinatesystem import CoordinateSystem
+
 from . import __version__
-from .cs.coordinatesystem import CoordinateSystem
-from .cs.util import create_coordinate_system
-from .motor import Motor
-from .util import get_logger
 
 __all__ = ["main"]
 
@@ -35,40 +34,6 @@ def main(args=None):
 
     # Run the IOC
     run_ioc(coordinate_systems)
-
-
-def parse_config(config):
-    logging.info("Parsing YAML")
-    motors = []
-    coordinate_systems = []
-    motor_key = "motor"
-    cs_key = "cs"
-    for entry in config:
-        if motor_key in entry:
-            name = entry[motor_key]["name"]
-            prefix = entry[motor_key]["prefix"]
-            motors.append(Motor(name, prefix))
-        elif cs_key in entry:
-            name = entry[cs_key]["name"]
-            cs_type = entry[cs_key]["type"]
-            real_motor_mapping = entry[cs_key]["real_motors"]
-            cs_motor_mapping = entry[cs_key]["cs_motors"]
-            cs_params = entry[cs_key]["cs_params"]
-            coordinate_systems.append(
-                create_coordinate_system(
-                    name,
-                    cs_type,
-                    real_motor_mapping,
-                    cs_motor_mapping,
-                    motors,
-                    cs_params,
-                )
-            )
-        else:
-            raise ValueError(f"Unknown object: {entry}")
-
-    logging.info(f"Found {len(coordinate_systems)} cs and {len(motors)} motors")
-    return coordinate_systems
 
 
 def run_ioc(coordinate_systems: List[CoordinateSystem]):

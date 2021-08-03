@@ -1,9 +1,9 @@
-from typing import Tuple, Union
+from typing import Tuple
 
 import cothread.catools
-from cothread.dbr import ca_array, ca_float, ca_int, ca_str
+from cothread.dbr import ca_float
 
-pv = Union[ca_array, ca_float, ca_int, ca_str]
+from csmotormanager.datatypes.datatypes import pv
 
 
 class Motor:

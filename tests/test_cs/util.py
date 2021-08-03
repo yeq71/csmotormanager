@@ -1,5 +1,5 @@
-from csmotormanager.motor import Motor
-from csmotormanager.util import pv
+from csmotormanager.datatypes.datatypes import pv
+from csmotormanager.motor.motor import Motor
 
 
 class MockMotor(Motor):

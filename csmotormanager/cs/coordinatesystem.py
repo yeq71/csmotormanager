@@ -1,33 +1,10 @@
-from dataclasses import dataclass
 from typing import Dict, Optional, Sequence
 
 import cothread.catools
 
-from ..motor import Motor
-from ..util import find_motor, pv
-
-
-@dataclass
-class MotorLimit:
-    """Class for motor limit values"""
-
-    name: str
-    low_limit: float
-    high_limit: float
-
-    def __str__(self) -> str:
-        return f"{self.name} limits: {self.low_limit}, {self.high_limit}"
-
-
-@dataclass
-class Parameter:
-    """Parameter data class"""
-
-    name: str
-    value: float
-
-    def __str__(self) -> str:
-        return f"{self.name}: {self.value}"
+from csmotormanager.datatypes.datatypes import Parameter, pv
+from csmotormanager.motor.motor import Motor
+from csmotormanager.motor.util import MotorLimit, find_motor
 
 
 class CoordinateSystem:

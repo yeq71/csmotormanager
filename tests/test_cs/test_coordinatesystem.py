@@ -2,39 +2,9 @@ from unittest.mock import patch
 
 import pytest
 
-from csmotormanager.cs.coordinatesystem import CoordinateSystem, MotorLimit, Parameter
+from csmotormanager.cs.coordinatesystem import CoordinateSystem
 
 from .util import MockMotor
-
-
-def test_MotorLimit():
-    name = "x_motor"
-    low_limit = 5.3
-    high_limit = 25.9
-
-    motor_limit = MotorLimit(name, low_limit, high_limit)
-
-    assert motor_limit.name == name
-    assert motor_limit.low_limit == low_limit
-    assert motor_limit.high_limit == high_limit
-
-    string = motor_limit.__str__()
-
-    assert string == "x_motor limits: 5.3, 25.9"
-
-
-def test_Parameter():
-    name = "XY_skew"
-    value = 0.985
-
-    param = Parameter(name, value)
-
-    assert param.name == name
-    assert param.value == value
-
-    string = param.__str__()
-
-    assert string == "XY_skew: 0.985"
 
 
 class TestCoordinateSystem:

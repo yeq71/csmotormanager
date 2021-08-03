@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from csmotormanager.motor import Motor
+from csmotormanager.motor.motor import Motor
 
 
-@patch("csmotormanager.motor.Motor.get_pv")
+@patch("csmotormanager.motor.motor.Motor.get_pv")
 def test_motor_init(mock_get_pv):
     name = "x_motor"
     prefix = "MO-MOTORS-01:X"
@@ -19,7 +19,7 @@ def test_motor_init(mock_get_pv):
     assert motor.units == units
 
 
-@patch("csmotormanager.motor.Motor.get_pv")
+@patch("csmotormanager.motor.motor.Motor.get_pv")
 def test_motor_string_representation(mock_get_pv):
     name = "x_motor"
     prefix = "MO-MOTORS-01:X"

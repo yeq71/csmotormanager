@@ -1,6 +1,7 @@
 from typing import Dict, List, Sequence
 
-from ..motor import Motor
+from csmotormanager.motor.motor import Motor
+
 from .coordinatesystem import CoordinateSystem
 
 
